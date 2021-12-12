@@ -3,6 +3,8 @@ import math
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 
+nltk.download('stopwords')
+
 def tf(word, blob):
     return blob.count(word) / len(blob)
 
