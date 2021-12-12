@@ -16,7 +16,7 @@
     <br/>
     <br/>
 
-{#    {% if tfidf_data %}#}
+    {% if tfidf_data %}
 
         <div style="height: 500px; overflow: auto;">
             <table class="table table-bordered">
@@ -48,11 +48,41 @@
 
         <br/>
         <form action="{% url 'frontend:export_to_csv' %}">
+
+        <br/>
         <button type="submit" class="btn btn-success">Export to Excel</button>
         </form>
 
+        <br/>
 
-{#    {% endif %}#}
+        {% for row in top_words %}
+
+            <div>
+            Top words in Document {{ forloop.counter }} are :
+
+                <br/>
+
+                <div>
+                <b>
+                    {% for content in row %}
+
+                        <span class="badge badge-pill badge-dark">{{ content.0 }}</span>
+
+
+                    {% endfor %}
+
+                </b>
+
+                </div>
+
+                <br/>
+
+            </div>
+
+        {% endfor %}
+
+
+    {% endif %}
 
 
 

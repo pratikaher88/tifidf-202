@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import DocumentForm
 from .calculation_sklearn import calculate_scores
+from .top_words import calculate_top_words
 from django.http import HttpResponse
 import csv
 
@@ -18,13 +19,16 @@ def main_frontend(request):
             doc3 = str(form.cleaned_data['document_3'])
             doc4 = str(form.cleaned_data['document_4'])
 
-            # tfidf_dataframe = calculate_scores(doc1, doc2, doc3, doc4)
+            tfidf_dataframe = calculate_scores(doc1, doc2, doc3, doc4)
+            top_words = calculate_top_words(doc1, doc2, doc3, doc4)
 
-            tfidf_dataframe = calculate_scores("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
+            # tfidf_dataframe = calculate_scores("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
+
+            # top_words = calculate_top_words("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
 
             # [(i, j) for i, j in zip(tfidf_dataframe.columns.tolist(), tfidf_dataframe.values.to_list())]
 
-            return render(request, 'frontend.html', {'form': form, 'tfidf_data': tfidf_dataframe })
+            return render(request, 'frontend.html', {'form': form, 'top_words': top_words,'tfidf_data': tfidf_dataframe })
 
     else:
         form = DocumentForm()
