@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} About Us {% endblock %}
+
+{% block content %}
+
+
+    <form action="{% url 'frontend:generate' %}" method="post">
+    {% csrf_token %}
+        {{ form.as_p }}
+        <br/>
+        <button type="submit" class="btn btn-success">Generate</button>
+    </form>
+
+    <br/>
+    <br/>
+
+{#    {% if tfidf_data %}#}
+
+        <div style="height: 500px; overflow: auto;">
+            <table class="table table-bordered">
+              <thead class="thead-dark">
+                <tr>
+                    <th scope="col"> No </th>
+                    <th scope="col"> Token </th>
+                    <th scope="col"> Doc1 </th>
+                    <th scope="col"> Doc2 </th>
+                    <th scope="col"> Doc3 </th>
+                    <th scope="col"> Doc4 </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {% for row in tfidf_data %}
+                      <tr>
+                          <th scope="row"> {{ forloop.counter }}</th>
+                          <td> {{ row.0 }} </td>
+                          {% for value in row.1 %}
+                              <td> {{ value|floatformat:"-3" }} </td>
+                          {% endfor %}
+                      </tr>
+                {% endfor %}
+
+              </tbody>
+            </table>
+        </div>
+
+        <br/>
+        <form action="{% url 'frontend:export_to_csv' %}">
+        <button type="submit" class="btn btn-success">Export to Excel</button>
+        </form>
+
+
+{#    {% endif %}#}
+
+
+
+{% endblock %}
