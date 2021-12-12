@@ -2,6 +2,7 @@ import math
 # from textblob import TextBlob as tb
 from nltk import word_tokenize
 from nltk.corpus import stopwords
+import nltk
 
 nltk.download('stopwords')
 
