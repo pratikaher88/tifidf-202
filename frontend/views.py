@@ -31,7 +31,10 @@ def main_frontend(request):
             return render(request, 'frontend.html', {'form': form, 'top_words': top_words,'tfidf_data': tfidf_dataframe })
 
     else:
-        form = DocumentForm()
+        form = DocumentForm(initial={'document_1': 'What is the slope coefficient for male? Is it statistically significant?',
+                                     'document_2': 'Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation.',
+                                     'document_3': 'Is the regression significant? How do you know?',
+                                     'document_4': 'What is your p-value for the heteroskedasticity test, and is it significant?',})
 
     return render(request, 'frontend.html', {'form': form})
 

@@ -3,8 +3,8 @@ import math
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 import nltk
-nltk.download('punkt')
-nltk.download('stopwords')
+# nltk.download('punkt')
+# nltk.download('stopwords')
 
 def tf(word, blob):
     return blob.count(word) / len(blob)
@@ -40,4 +40,7 @@ def calculate_top_words(doc1, doc2, doc3, doc4):
     return result
 
 
-calculate_top_words("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
+calculate_top_words("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation.",
+                    "What is your p-value for the heteroskedasticity test, and is it significant?",
+                    "Is the regression significant? How do you know?",
+                    "What is the slope coefficient for black? Is it statistically significant?")
