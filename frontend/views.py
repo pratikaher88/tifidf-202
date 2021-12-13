@@ -22,7 +22,7 @@ def main_frontend(request):
             tfidf_dataframe = calculate_scores(doc1, doc2, doc3, doc4)
             top_words = calculate_top_words(doc1, doc2, doc3, doc4)
 
-            # request.session['dataframe'] = tfidf_dataframe
+            request.session['dataframe'] = tfidf_dataframe
 
             # tfidf_dataframe = calculate_scores("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
 
