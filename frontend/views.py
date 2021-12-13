@@ -22,6 +22,8 @@ def main_frontend(request):
             tfidf_dataframe = calculate_scores(doc1, doc2, doc3, doc4)
             top_words = calculate_top_words(doc1, doc2, doc3, doc4)
 
+            request.session['dataframe'] = tfidf_dataframe
+
             # tfidf_dataframe = calculate_scores("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
 
             # top_words = calculate_top_words("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
@@ -39,9 +41,31 @@ def main_frontend(request):
     return render(request, 'frontend.html', {'form': form})
 
 
-def export_users_csv(request):
+def export_to_csv(request):
 
-    print('Here', request)
+    if 'dataframe' in request.session:
+
+        response = HttpResponse(
+            content_type='text/csv',
+            headers={'Content-Disposition': 'attachment; filename="tfidf_data.csv"'},
+        )
+
+        dataframe = request.session['dataframe']
+        writer = csv.writer(response)
+
+        for row in dataframe:
+            temp = []
+            temp.append(row[0])
+            for value in row[1]:
+                temp.append(value)
+            writer.writerow(temp)
+
+        # writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+        # writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+        return response
+
+
 
     # if request.method == 'POST':
     #     print('Here')
@@ -61,3 +85,9 @@ def export_users_csv(request):
     # users = User.objects.all().values_list('username', 'first_name', 'last_name', 'email')
     # for user in users:
     #     writer.writerow(user)
+
+
+# def dynamic_articles_view(request):
+#
+#     print(request.GET.get('search'))
+#     return render(request, "frontend.html", {'result' : '1223'})
