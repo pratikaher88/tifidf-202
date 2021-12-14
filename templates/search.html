@@ -1,9 +1,36 @@
-{% extends 'frontend.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
-{% block search %}
+{% block title %} About Us {% endblock %}
 
-    <p>Hello</p>
+{% block content %}
+
+    <form name="searchoutput" method="GET" action="{% url 'frontend:search' %}">
+        <input type="text" name="search" placeholder="Search" />
+        <input type="submit" value="Search">
+    </form>
+
+    <br>
+
+{#    {% if docs %}#}
+
+    <p>The most relevant documents for the term <b>"{{ term }}"</b> are in the following order</p>
+
+    <ul class="list-group">
+
+    {% for doc in docs %}
+        <li class="list-group-item">Document {{ doc|add:"1" }}</li>
+
+    {% endfor %}
+
+    </ul>
+
+{#    {% else %}#}
+{##}
+{#        The given word "{{ term }}" does not exist in the documents.#}
+
+
+{#    {% endif %}#}
 
 
 {% endblock %}

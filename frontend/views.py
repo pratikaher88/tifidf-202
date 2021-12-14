@@ -5,6 +5,7 @@ from .calculation_sklearn import calculate_scores
 from .top_words import calculate_top_words
 from django.http import HttpResponse
 import csv
+import numpy as np
 
 def main_frontend(request):
 
@@ -22,13 +23,9 @@ def main_frontend(request):
             tfidf_dataframe = calculate_scores(doc1, doc2, doc3, doc4)
             top_words = calculate_top_words(doc1, doc2, doc3, doc4)
 
-            # request.session['dataframe'] = tfidf_dataframe
-
+            request.session['dataframe'] = tfidf_dataframe
             # tfidf_dataframe = calculate_scores("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
-
             # top_words = calculate_top_words("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
-
-            # [(i, j) for i, j in zip(tfidf_dataframe.columns.tolist(), tfidf_dataframe.values.to_list())]
 
             return render(request, 'frontend.html', {'form': form, 'top_words': top_words,'tfidf_data': tfidf_dataframe })
 
@@ -87,7 +84,24 @@ def export_to_csv(request):
     #     writer.writerow(user)
 
 
-# def dynamic_articles_view(request):
-#
-#     print(request.GET.get('search'))
-#     return render(request, "frontend.html", {'result' : '1223'})
+def search(request):
+    print('Here', request.GET)
+    if request.GET.get('search'):
+        search_query = request.GET.get('search')
+        # print(search_query)
+        if 'dataframe' in request.session:
+
+            dataframe = request.session['dataframe']
+            # print(dataframe)
+            for value in dataframe:
+
+                if value[0] == search_query:
+                    # print(value)
+                    # print(np.argsort(value[1][:-1]))
+
+                    return render(request, 'search.html', { 'term' : search_query , 'docs' : np.argsort([i for i in value[1][:-1] if i != 0])})
+
+            return render(request, 'search.html', { 'term' : search_query})
+
+    return render(request, 'search.html')
+

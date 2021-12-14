@@ -22,10 +22,12 @@ def calculate_scores(doc1, doc2, doc3, doc4):
 
  words = tfidf_dataframe.columns.tolist()
 
+ # print(tfidf_dataframe)
+
  tfidf_dataframe = tfidf_dataframe.transpose()
  # print(dataframe.iloc[0])
 
- # print(tfidf_dataframe.columns.tolist())
+ tfidf_dataframe = tfidf_dataframe.assign(max_value=(tfidf_dataframe.idxmax(axis=1)+1))
 
  return [(i, j) for i, j in zip(words, tfidf_dataframe.values.tolist())]
  # print(vectorizer.get_feature_names_out())

@@ -18,7 +18,7 @@
     <br/>
     <br/>
 
-    {% if tfidf_data %}
+{#    {% if tfidf_data %}#}
 
         <div style="height: 500px; overflow: auto;">
             <table class="table table-bordered table-sm">
@@ -30,6 +30,7 @@
                     <th scope="col"> Doc2 </th>
                     <th scope="col"> Doc3 </th>
                     <th scope="col"> Doc4 </th>
+                    <th scope="col"> Most relevant in document: </th>
                 </tr>
               </thead>
               <tbody>
@@ -87,14 +88,14 @@
 {#            <input type="text" name="search" placeholder="Search by word" value="{{request.GET.title}}">#}
 {#            <input type="submit" value="Search">#}
 {#        </form>#}
-{##}
-{#        {{ result }}#}
-{##}
-{#        {% block search %}#}
-{#        {% endblock %}#}
+
+    <form name="searchoutput" method="GET" action="{% url 'frontend:search' %}">
+        <input type="text" name="search" placeholder="Search" />
+        <input type="submit" value="Search">
+    </form>
 
 
-    {% endif %}
+{#    {% endif %}#}
 
 
 
