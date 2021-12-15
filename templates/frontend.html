@@ -140,6 +140,9 @@
                     var newTitle = document.createElement("p");
                     newTitle.id = 'p-search-title'
                     newTitle.innerHTML = "The most relevant documents for the term '"+String(input)+"' are in the following order"
+
+                    document.getElementById("template-container").style.padding = "50px";
+
                     document.getElementById('template-container').append(newTitle)
 
                     {#console.log(Array.from(data["response"]));#}
