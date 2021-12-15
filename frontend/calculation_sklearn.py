@@ -4,7 +4,7 @@ import pandas as pd
 
 def calculate_scores(doc1, doc2, doc3, doc4):
 
- tfidf_vectorizer = TfidfVectorizer(stop_words = 'english')
+ tfidf_vectorizer = TfidfVectorizer(stop_words = 'english',smooth_idf = True, token_pattern=r'(?u)\b[A-Za-z]+\b')
 
  doc_list = []
  if doc1:
@@ -36,4 +36,4 @@ def calculate_scores(doc1, doc2, doc3, doc4):
 
 
 
-calculate_scores("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")
+# calculate_scores("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation. ", "What is your p-value for the heteroskedasticity test, and is it significant?", "Is the regression significant? How do you know?", "What is the slope coefficient for black? Is it statistically significant?")

@@ -3,6 +3,7 @@ import math
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 import nltk
+import string
 nltk.download('punkt')
 nltk.download('stopwords')
 
@@ -28,7 +29,7 @@ def calculate_top_words(doc1, doc2, doc3, doc4):
 
     for i, blob in enumerate(bloblist):
         # print("Top words in document {}".format(i + 1))
-        data = [word for word in word_tokenize(blob.lower()) if word not in stop]
+        data = [word for word in word_tokenize(blob.lower()) if word not in stop and word not in string.punctuation]
 
         scores = {word: tfidf(word, data, bloblist) for word in data}
         sorted_words = sorted(scores.items(), key=lambda x: x[1], reverse=True)
@@ -40,7 +41,7 @@ def calculate_top_words(doc1, doc2, doc3, doc4):
     return result
 
 
-calculate_top_words("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation.",
-                    "What is your p-value for the heteroskedasticity test, and is it significant?",
-                    "Is the regression significant? How do you know?",
-                    "What is the slope coefficient for black? Is it statistically significant?")
+# calculate_top_words("Please note that if we did find a problem, we would probably re-run all our regressions with an appropriate linr transformation.",
+#                     "What is your p-value for the heteroskedasticity test, and is it significant?",
+#                     "Is the regression significant? How do you know?",
+#                     "What is the slope coefficient for black? Is it statistically significant?")
