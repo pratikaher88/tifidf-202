@@ -1,4 +1,6 @@
-from django.http import HttpResponseRedirect
+import json
+
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from .forms import DocumentForm
 from .calculation_sklearn import calculate_scores
@@ -85,7 +87,6 @@ def export_to_csv(request):
 
 
 def search(request):
-    print('Here', request.GET)
     if request.GET.get('search'):
         search_query = request.GET.get('search')
         # print(search_query)
@@ -105,3 +106,33 @@ def search(request):
 
     return render(request, 'search.html')
 
+def search_ajax(request):
+
+    if request.GET.get('search'):
+        search_query = request.GET.get('search')
+        if 'dataframe' in request.session:
+            dataframe = request.session['dataframe']
+
+            for value in dataframe:
+                if value[0] == search_query:
+
+                    # print('value', [i for i in value[1][:-1] if i != 0])
+                    print(value[1][:-1], np.argsort(value[1][:-1]))
+                    temp = {}
+
+                    for index, v in enumerate(value[1][:-1]):
+                        if v != 0:
+                            temp[v] = index
+
+                    temp = sorted(temp.items(), key=lambda x: x[1])
+                    a, b = zip(*temp)
+
+                    data = {'response': b}
+
+                    return JsonResponse(data)
+
+
+
+    data = {'response': None}
+
+    return JsonResponse(data)

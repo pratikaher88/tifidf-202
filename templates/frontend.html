@@ -18,7 +18,7 @@
     <br/>
     <br/>
 
-{#    {% if tfidf_data %}#}
+    {% if tfidf_data %}
 
         <div style="height: 500px; overflow: auto;">
             <table class="table table-bordered table-sm">
@@ -89,14 +89,75 @@
 {#            <input type="submit" value="Search">#}
 {#        </form>#}
 
-    <form name="searchoutput" method="GET" action="{% url 'frontend:search' %}">
-        <input type="text" name="search" placeholder="Search" />
-        <input type="submit" value="Search">
-    </form>
+{#    <form name="searchoutput" method="GET" action="{% url 'frontend:search' %}">#}
+{#        <input type="text" name="search" placeholder="Search" />#}
+{#        <input type="submit" value="Search">#}
+{#    </form>#}
 
 
-{#    {% endif %}#}
+    <input type="text" id="user-input" autofocus="" style="margin-right: 10px;width: 400px">
+    <button class="btn btn-primary"  type="button" id="sender">Send data</button><br>
 
 
+
+    {% endif %}
+
+
+         <script>
+
+        $("#sender").click(function () {
+            var input = $('#user-input').val();
+
+            $.ajax({
+                url: '{% url 'frontend:get_response' %}',
+                data: {
+                  'search': input
+                },
+                dataType: 'json',
+                success: function (data) {
+
+                    var elementExists = document.getElementById('template-container');
+
+                    if (elementExists){
+                        elementExists.remove()
+                    }
+
+
+                    let templates = document.createElement("div");
+                    templates.id = 'template-container'
+                    document.body.append(templates)
+
+                    if (data["response"] === null){
+                        var newTitle = document.createElement("p");
+                        newTitle.id = 'p-search-title'
+                        newTitle.innerHTML = "term does not exist in the documents"
+                        document.getElementById('template-container').append(newTitle);
+                        return;
+                    }
+
+                    var myStringArray = Array.from(data["response"]);
+
+                    var newTitle = document.createElement("p");
+                    newTitle.id = 'p-search-title'
+                    newTitle.innerHTML = "The most relevant documents for the term '"+String(input)+"' are in the following order"
+                    document.getElementById('template-container').append(newTitle)
+
+                    {#console.log(Array.from(data["response"]));#}
+
+                    console.log(myStringArray);
+                    var arrayLength = myStringArray.length;
+                    for (var i = 0; i < arrayLength; i++) {
+                        var newDiv = document.createElement("li");
+                        newDiv.className = 'list-group-item'
+                        newDiv.innerHTML = 'Document '+ String(parseInt(myStringArray[i])+1);
+                        document.getElementById('template-container').append(newDiv);
+                    }
+
+                    {#document.body.append(templates)#}
+                }
+              });
+            });
+
+        </script>
 
 {% endblock %}

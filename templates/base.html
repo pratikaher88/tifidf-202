@@ -11,9 +11,9 @@
     {% load static %}
 
     <nav class="navbar navbar-light bg-dark">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{% url 'frontend:index' %}">
         <img src="/static/images/TD.png" width="30" height="30" class="d-inline-block align-top" alt="">
-        <span style="color: white" href="{% url 'frontend:index' %}">TFIDF-izer</span>
+        <span style="color: white" >TFIDF-izer</span>
       </a>
     </nav>
 
@@ -24,6 +24,12 @@
   {% block content %}
   {% endblock %}
 </div>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+  {% block script %}
+  {% endblock %}
+
 
 </body>
 </html>
